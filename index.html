@@ -2,27 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sharma's Sprouts</title>
-    <link rel="icon" href="ssicon.jpg" type="image/jpeg">
+  <link rel="icon" href="images/ssicon.jpg" type="image/jpeg">
   <style>
-      
-      .photos-gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center; /* Optional: to center the row */
-}
-
-.photos-gallery img {
-  width: calc(33.33% - 1rem); /* 3 in one row, accounting for gap */
-  max-width: 300px;
-  height: auto;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-      
     * {
       margin: 0;
       padding: 0;
@@ -30,123 +13,264 @@
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background-color: #004d00;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(120deg, #001a00, #004d00);
       color: white;
+      overflow-x: hidden;
     }
 
     header {
-      background-color: #004d00;
-      color: white;
-      padding: 1rem;
       text-align: center;
+      padding: 5rem 1rem;
+      background: url('images/ssbg.jpg') center/cover no-repeat;
+      position: relative;
     }
 
-    nav {
-      background-color: #003d00;
-      padding: 0.5rem;
-      text-align: center;
+    header::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
     }
 
-    nav a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
+    header * {
+      position: relative;
+      z-index: 2;
+    }
+
+    header img {
+      width: 180px;
+      border-radius: 50%;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    header h1 {
+      font-size: 3.5rem;
+      color: #90ff90;
+      text-shadow: 2px 2px 10px black;
+      margin: 1rem 0 0.5rem;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #caffca;
     }
 
     .container {
-      padding: 2rem;
+      padding: 3rem 2rem;
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 3rem;
     }
 
     .section {
-      background-color: #006400;
-      color: white;
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 8px 30px rgba(0, 255, 128, 0.2);
+      animation: fadeInUp 0.8s ease-in-out;
+      transition: transform 0.3s ease;
+    }
+
+    .section:hover {
+      transform: scale(1.02);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
     .section h2 {
+      font-size: 2.2rem;
+      color: #a0ffb0;
       margin-bottom: 1rem;
     }
 
     .photos-gallery {
       display: flex;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 2rem;
+      justify-content: center;
     }
 
-    .photos-gallery img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 10px;
-      width: 300px;
+    .image-card {
+      width: 280px;
+      height: 200px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+      transform-style: preserve-3d;
+      will-change: transform;
+      cursor: pointer;
+    }
+
+    .image-card img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
+      border-radius: 15px;
+      transition: transform 0.4s ease;
+    }
+
+    .image-card:hover img {
+      transform: scale(1.05) rotate(1deg);
+    }
+
+    #contact img {
+      transition: transform 0.3s ease;
+    }
+
+    #contact img:hover {
+      transform: scale(1.2) rotate(5deg);
     }
 
     footer {
-      display: none;
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      background-color: #002800;
+    }
+
+    a {
+      color: #aaffaa;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .image-card {
+        width: 90%;
+      }
+    }
+
+    /* Lightbox Styles */
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 9999;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      transform: scale(0.8) rotateX(15deg) rotateY(-15deg);
+      box-shadow: 0 0 60px rgba(0,255,128,0.4);
+      transition: transform 0.5s ease;
+      border-radius: 12px;
+    }
+
+    .lightbox.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .lightbox.show img {
+      transform: scale(1) rotateX(0deg) rotateY(0deg);
     }
   </style>
 </head>
 <body>
+
   <header>
-      <img src="sslogo.jpg" alt="Sharma's Sprouts Logo" style="max-width: 200px; display: block; margin: 0 auto 1rem;">
+    <img src="images/sslogo.jpg" alt="Sharma's Sprouts Logo" />
     <h1>Sharma's Sprouts</h1>
-    <p>Welcome</p>
+    <p>Fresh. Healthy. Energizing.</p>
   </header>
- <!-- <nav>
-    <a href="#about">About Me</a>
-    <a href="#photos">Photos</a>
-    <a href="#contact">Contact</a>
-  </nav> -->	
+
   <main class="container">
+
     <section class="section" id="about">
       <h2>About Us</h2>
-      <p>Sharma's Sprouts
-Sprouts May Improve Heart Health ❤️
-Full Of Nutrition in 1 Dish 🌱
-Healthy Juice & Protein Shake 🥛
-6 Branches 🏬 Nadiad- Anand
-Monday to Saturday 🌱
-</p>
+      <p>Sharma's Sprouts offers nutrient-packed sprouts, protein shakes, and juices that fuel your heart and health. Serving happiness across 6 branches in Nadiad & Anand. Open Monday to Saturday.</p>
     </section>
 
     <section class="section" id="photos">
-      <h2>Photos</h2>
+      <h2>Gallery</h2>
       <div class="photos-gallery">
-          
-        <img src="ss1.jpg" alt="Sharma Sprouts Instagram Photo" style="width:100%; max-width:400px; border-radius: 10px;">
-          <img src="ss2.jpg" alt="Sharma Sprouts Instagram Photo" style="width:100%; max-width:400px; border-radius: 10px;">
-          <img src="ss3.jpg" alt="Sharma Sprouts Instagram Photo" style="width:100%; max-width:400px; border-radius: 10px;">
-          <img src="ss4.jpg" alt="Sharma Sprouts Instagram Photo" style="width:100%; max-width:400px; border-radius: 10px;">
-          <img src="ss5.jpg" alt="Sharma Sprouts Instagram Photo" style="width:100%; max-width:400px; border-radius: 10px;">
-          <img src="ss6.jpg" alt="Sharma Sprouts Instagram Photo" style="width:100%; max-width:400px; border-radius: 10px;">
-          <img src="ss7.jpg" alt="Sharma Sprouts Instagram Photo" style="width:100%; max-width:400px; border-radius: 10px;">
-          <img src="ss8.jpg" alt="Sharma Sprouts Instagram Photo" style="width:100%; max-width:400px; border-radius: 10px;">
-          <img src="ss9.jpg" alt="Sharma Sprouts Instagram Photo" style="width:100%; max-width:400px; border-radius: 10px;">
-          <img src="ss10.jpg" alt="Sharma Sprouts Instagram Photo" style="width:100%; max-width:400px; border-radius: 10px;">
-          <img src="ss11.jpg" alt="Sharma Sprouts Instagram Photo" style="width:100%; max-width:400px; border-radius: 10px;">
-          <img src="ss12.jpg" alt="Sharma Sprouts Instagram Photo" style="width:100%; max-width:400px; border-radius: 10px;">
+        <div class="image-card" data-tilt><img src="images/ss1.jpg" alt="Sprout Dish 1" /></div>
+        <div class="image-card" data-tilt><img src="images/ss2.jpg" alt="Sprout Dish 2" /></div>
+        <div class="image-card" data-tilt><img src="images/ss3.jpg" alt="Sprout Dish 3" /></div>
+        <div class="image-card" data-tilt><img src="images/ss4.jpg" alt="Sprout Dish 4" /></div>
+        <div class="image-card" data-tilt><img src="images/ss5.jpg" alt="Sprout Dish 5" /></div>
+        <div class="image-card" data-tilt><img src="images/ss6.jpg" alt="Sprout Dish 6" /></div>
       </div>
-        
-        <section class="section" id="contact">
-  <h2>Contact</h2>
-  <p>Phone: +91 9033675788 / +91 9638113956</p>
-  <div style="margin-top: 1rem;">
-    <a href="https://www.instagram.com/sharmasprouts" target="_blank" style="margin-right: 15px;">
-      <img src="insta.png" alt="Instagram" style="width: 30px; vertical-align: middle;">
-    </a>
-    <a href="https://www.facebook.com/people/Sharmas-Sprouts" target="_blank">
-      <img src="fb.png" alt="Facebook" style="width: 37px; vertical-align: middle;">
-    </a>
-  </div>
-</section>
+    </section>
+
+    <section class="section" id="contact">
+      <h2>Contact</h2>
+      <p>📞 +91 9033675788 / +91 9638113956</p>
+      <div style="margin-top: 1rem;">
+        <a href="https://www.instagram.com/sharmasprouts" target="_blank">
+          <img src="images/insta.png" alt="Instagram" style="width: 30px; margin-right: 20px;">
+        </a>
+        <a href="https://www.facebook.com/people/Sharmas-Sprouts" target="_blank">
+          <img src="images/fb.png" alt="Facebook" style="width: 37px;">
+        </a>
+      </div>
+    </section>
 
   </main>
+
+  <footer>
+      Thank You For Visiting
+  </footer>
+
+  <!-- Lightbox Popup -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img src="" alt="Full Image" id="lightbox-img">
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+  <script>
+    // Initialize 3D Tilt
+    VanillaTilt.init(document.querySelectorAll(".image-card"), {
+      max: 15,
+      speed: 400,
+      glare: true,
+      "max-glare": 0.3,
+    });
+
+    // Lightbox logic
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    function openLightbox(src) {
+      lightboxImg.src = src;
+      lightbox.classList.add('show');
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('show');
+    }
+
+    document.querySelectorAll('.image-card img').forEach(img => {
+      img.addEventListener('click', () => openLightbox(img.src));
+    });
+  </script>
+
 </body>
 </html>
